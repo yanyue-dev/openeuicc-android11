@@ -1,0 +1,14 @@
+# 构建产物不进 git 历史——APK 21MB、模块 7.7MB，走 Releases 分发
+*.apk
+*.idsig
+*.zip
+*.keystore
+*.jks
+
+# 解包目录
+apktool_out/
+build/
+dist/
+
+.DS_Store
+Thumbs.db

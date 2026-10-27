@@ -1,0 +1,31 @@
+# ===== 补丁 B：androidx.core.view.DisplayCompat#getRoundedCorner =====
+# 原文件：smali/androidx/core/view/DisplayCompat.smali 第 108~134 行
+# 改动点：.locals 1→2；方法头插入 SDK<31 直接返回 null 的守卫
+
+.method public static getRoundedCorner(Landroid/view/Display;I)Landroidx/core/view/RoundedCornerCompat;
+    .locals 2
+    .param p0, "display"    # Landroid/view/Display;
+    .param p1, "position"    # I
+
+    # Android 11 兼容补丁：getRoundedCorner 是 API 31 新增，低版本直接返回 null
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
+    const/16 v1, 0x1f
+    if-ge v0, v1, :cond_ok
+    const/4 v0, 0x0
+    return-object v0
+
+    :cond_ok
+    .line 207
+    nop
+
+    .line 208
+    invoke-virtual {p0, p1}, Landroid/view/Display;->getRoundedCorner(I)Landroid/view/RoundedCorner;
+
+    move-result-object v0
+
+    invoke-static {v0}, Landroidx/core/view/RoundedCornerCompat;->toRoundedCornerCompat(Landroid/view/RoundedCorner;)Landroidx/core/view/RoundedCornerCompat;
+
+    move-result-object v0
+
+    return-object v0
+.end method
